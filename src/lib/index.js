@@ -1,4 +1,5 @@
 module.exports = {
     Utils: require('./Utils'),
-    Stats: require('./Stats')
+    Stats: require('./Stats'),
+    openAi: require('./openAi')
 }
