@@ -3,7 +3,7 @@ module.exports = class command extends Command {
 
     constructor() {
      super('wallet', {
-     description: "Displays the bot's usable commands",
+     description: "Shows user wallet",
      category: 'economy',
      exp: 20,
      usage: 'wallet',
@@ -14,7 +14,6 @@ module.exports = class command extends Command {
   }
 
   /**
-
   * @param {Message} M
   * @param {import('../../Handlers/Message').args} args
   * @returns {Promise<void>}
