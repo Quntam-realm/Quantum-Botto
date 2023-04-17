@@ -1,6 +1,6 @@
 const Command = require('../../Structures/Command')
 const Message = require('../../Structures/Message')
-// const { chat } = require('../../lib/openAi')
+ const { chat } = require('../../lib/openAi')
 module.exports = class command extends Command {
     constructor() {
         super('gpt', {
@@ -26,7 +26,7 @@ module.exports = class command extends Command {
         if (context === null) return M.reply('Please provide some text to prompt the AI')
         
         try {
-            const response = await this.helper.openAi.chat(context)
+            const response = await chat(context)
             let res = response.response;
 
             let text = `Q. ${context}\n\nA. ${res.trim().replace(/\n\n/, '\n')}`;
