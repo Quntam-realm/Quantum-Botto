@@ -1,6 +1,6 @@
 const Command = require('../../Structures/Command')
 const Message = require('../../Structures/Message')
-const UserModel = require('../../Database/Models/User')
+
 module.exports = class command extends Command {
     constructor() {
         super('ban', {
@@ -17,43 +17,39 @@ module.exports = class command extends Command {
      * @returns {Promise<void>}
      */
 
-    execute = async (M, reply, quoted, mentioned, from, sender, groupMetadata, args) => {
-      let { context } = args[0]
-      const users = M.mentioned
-      if (quoted && !users.includes(quoted.sender.jid)) users.push(quoted.sender.jid)
-      if (users.length <= 0) return void M.reply('Tag or quote a user to ban with the reason')
-      const { ban } = await this.helper.DB.getUser(users[0])
-      if (ban?.banned)
-      return void M.reply(
-
-              `🟥 *@${users[0].split('@')[0]}* is already banned by *${ban.bannedBy}* in *${ban.bannedIn} ${
-                  ban.time
-              } (GMT)*. ❓ Reason: *${ban.reason}*`,
-
-              'text',
-              undefined,
-              undefined,
-              undefined,
-              [users[0]]
-
-          )
-
-      if (!context)
-          return void M.reply(`Provide the reason to ban. Example - *${this.helper.config.prefix}ban @user | reason*`)
-      const reason = context.trim().split('|')[1]
-    if (!reason)
-        return void M.reply(`Provide the reason to ban. Example - *${this.helper.config.prefix}ban @user | reason*`)
-   const { subject } = 
-  await this.helper.DB.banUser(users[0], sender.username, subject, reason.trim())
-   return void M.reply(
-     `*@${users[0].split('@')[0]}* is now banned from using commands. Reason: *${reason.trim()}*`,
-
-          'text',
-       undefined,
-       undefined,
-       undefined,
-       [users[0]]
-
-    )
-  }
+    execute = async (M, args) => {
+        let { flags } = args
+        const users = M.mentioned
+        if (M.quoted && !users.includes(M.quoted.sender.jid)) users.push(M.quoted.sender.jid)
+        if (users.length < 1) return void M.reply('Tag or quote a user to use this command')
+        flags = flags.filter((flag) => flag.startsWith('--action'))
+        if (flags.length < 1)
+            return void M.reply(
+                `Provide the action of the ban. Example: *${this.helper.config.prefix}ban --action=ban*`
+            )
+        const actions = ['ban', 'unban']
+        const action = flags[0].split('=')[1]
+        if (!action || action === '')
+            return void M.reply(
+                `Provide the action of the ban. Example: *${this.helper.config.prefix}ban --action=ban*`
+            )
+        if (!actions.includes(action.toLowerCase())) return void M.reply('Invalid action')
+        let text = `🚦 *State: ${action.toLowerCase() === 'ban' ? 'BANNED' : 'UNBANNED'}*\n⚗ *Users:*\n`
+        let Text = '🚦 *State: SKIPPED*\n⚗ *Users:*\n\n'
+        let resultText = ''
+        let skippedFlag = false
+        for (const user of users) {
+            const info = await this.helper.DB.getUser(user)
+            if ((info.ban && action.toLowerCase() === 'ban') || (!info.ban && action.toLowerCase() === 'unban')) {
+                skippedFlag = true
+                Text += `*@${user.split('@')[0]}*\n`
+                continue
+            }
+            text += `\n*@${user.split('@')[0]}*`
+            await this.helper.DB.user.updateOne({ jid: user }, { $set: { ban: action.toLowerCase() === 'ban' } })
+        }
+        if (skippedFlag) resultText += `${Text}\n`
+        resultText += text
+        return void (await M.reply(resultText, 'text', undefined, undefined, undefined, users))
+    }
 }
