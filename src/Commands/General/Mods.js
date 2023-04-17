@@ -19,13 +19,17 @@ module.exports = class command extends Command {
      * @returns {Promise<void>}
      */
 
-     execute = async (M, reply) => {
-     if (!this.helper.config.mods.length) return void reply('*[MODS]*')
-        let text = `🤖 *${this.helper.config.name} Moderators* \n`
-        for (let i = 0; i < this.client.config.mods.length; i++)
-            text += `\n*#${i + 1}*\n🎐 *Username:* ${
-                this.helper.contact.getContact(this.helper.config.mods[i]).username
-            }\n♦️ *Contact: https://wa.me/+${this.helper.config.mods[i].split('@')[0]}*`
-        return void (await reply(text))
+     execute = async (M) => {
+     if (!this.helper.config.mods.length) return void M.reply('*[UNMODERATED]*')
+     let text ="*❱❱❱❱❱ MODS ❰❰❰❰❰*\n\n"
+
+const mentions = []
+this.helper.config.mods.map((x)=>{
+text+= `*❯ @${this.helper.contact.getContact(x).jid.split('@')[0]}*\n`
+mentions.push(this.helper.contact.getContact(x).jid)
+
+})
+        return void this.client.sendMessage(M.from,{text:text, mentions:mentions})
+
     }
 }
