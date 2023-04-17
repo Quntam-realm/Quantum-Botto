@@ -1,8 +1,8 @@
 const Command = require('../../Structures/Command')
 const Message = require('../../Structures/Message')
-module.exports = class command extends Command {
 
-    constructor() {
+module.exports = class command extends Command {
+   constructor() {
      super('bank', {
      description: "Displays the bot's usable commands",
      category: 'economy',
@@ -30,4 +30,3 @@ module.exports = class command extends Command {
 
     }
 }
- 
