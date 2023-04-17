@@ -1,4 +1,4 @@
-const Command = require('../../Structures/Command')
+Command = require('../../Structures/Command')
 const Message = require('../../Structures/Message')
 
 module.exports = class command extends Command {
@@ -19,6 +19,6 @@ module.exports = class command extends Command {
      */
 
     execute = async (M) => {
-        return void M.reply(`Hello! ${M.sender.username}`)
+        return void M.reply(`👋 Hello! *${M.sender.username}*`)
     }
 }
