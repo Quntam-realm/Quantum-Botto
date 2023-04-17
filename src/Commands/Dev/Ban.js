@@ -54,8 +54,6 @@ module.exports = class command extends Command {
        undefined,
        [users[0]]
 
-      )
-
+    )
   }
-
 }
