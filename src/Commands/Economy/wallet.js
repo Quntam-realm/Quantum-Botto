@@ -1,4 +1,5 @@
-const Command = require('../../Structures/Command')const Message = require('../../Structures/Message')
+const Command = require('../../Structures/Command')
+const Message = require('../../Structures/Message')
 
  module.exports = class command extends Command {
   constructor() {
