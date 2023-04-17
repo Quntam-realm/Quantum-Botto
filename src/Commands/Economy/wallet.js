@@ -1,7 +1,7 @@
 const Command = require('../../Structures/Command')const Message = require('../../Structures/Message')
-module.exports = class command extends Command {
 
-    constructor() {
+ module.exports = class command extends Command {
+  constructor() {
      super('wallet', {
      description: "Shows user wallet",
      category: 'economy',
