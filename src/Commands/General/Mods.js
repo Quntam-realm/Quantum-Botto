@@ -24,11 +24,8 @@ module.exports = class command extends Command {
      let text ="*❱❱❱❱❱ _MODS_ ❰❰❰❰❰*\n\n"
 
 const mentions = []
-
 this.helper.config.mods.map((x)=>{
-
 text+= `*❯ @${this.helper.contact.getContact(x).jid.split('@')[0]}*\n`
-
 mentions.push(this.helper.contact.getContact(x).jid)
 
 })
