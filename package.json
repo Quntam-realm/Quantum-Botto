@@ -1,8 +1,8 @@
 {
-  "name": "Zerus2.0",
+  "name": "Jill",
   "version": "0.0.1",
   "description": "A WhatsApp bot written in JavaScript using Baileys",
-  "author": "Toshi-san001",
+  "author": "Toshi-san001 x Eximanati",
   "keywords": [
     "bot",
     "whatsapp",
@@ -14,12 +14,12 @@
     "start": "node --max-old-space-size=4096 src/bot.js"
   },
   "bugs": {
-    "url": "https://github.com/Toshi-san001/Zerus2.0/issues"
+    "url": "https://github.com/Quntam-realm/Quntam-Botto/issues"
   },
-  "homepage": "https://github.com/Toshi-san001/Zerus2.0",
+  "homepage": "https://github.com/Quntam-realm/Quntam-Botto",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Toshi-san001/Zerus2.0.git"
+    "url": "https://github.com/Quntam-realm/Quntam-Botto.git"
   },
   "dependencies": {
     "@adiwajshing/baileys": "^5.0.0",
