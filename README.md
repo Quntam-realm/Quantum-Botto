@@ -1,19 +1,18 @@
-
 <!-- ![Just...]() -->
 
 <div align='center'>
 
-<h2> Quntam-Botto </h2>
+<h2> Quantum-Botto </h2>
   
-<a href='https://github.com/Quntam-realm/Quntam-Botto/releases'>
+<a href='https://github.com/Quantum-realm/Quantum-Botto/releases'>
   
-<img src='https://img.shields.io/github/v/release/Quntam-realm/Quntam-Botto?color=%231e81b0&label=version&style=for-the-badge'>
+<img src='https://img.shields.io/github/v/release/Quantum-realm/Quantum-Botto?color=%231e81b0&label=version&style=for-the-badge'>
   
 </a>
   
-<a href='https://github.com/Quntam-realm/Quntam-Botto/blob/master/LICENSE'>
+<a href='https://github.com/Quantum-realm/Quantum-Botto/blob/master/LICENSE'>
   
-<img src='https://img.shields.io/github/license/Quntam-realm/Quntam-Botto?color=%231e81b0&style=for-the-badge'>
+<img src='https://img.shields.io/github/license/Quantum-realm/Quantum-Botto?color=%231e81b0&style=for-the-badge'>
   
 </a>
   
@@ -46,8 +45,8 @@
 
  ## 📙 Guide
 
- - [Self Hosting Guide](https://github.com/Quntam-realm/Quntam-Botto/blob/master/Self-Hosting-Guide.md)
- - [Heroku Hosting Guide](https://github.com/Quntam-realm/Quntam-Botto/blob/master/Heroku-Hosting-Guide.md)
+ - [Self Hosting Guide](https://github.com/Quantum-realm/Quantum-Botto/blob/master/Self-Hosting-Guide.md)
+ - [Heroku Hosting Guide](https://github.com/Quantum-realm/Quantum-Botto/blob/master/Heroku-Hosting-Guide.md)
 
  ## 💪 Contributing
 
@@ -56,4 +55,4 @@
 
  ## 🎐 License
 
- Quntam-Botto is free and open-source software licensed under the [GNU Affero General Public License v3.0](https://github.com/Quntam-realm/Quntam-Botto/blob/master/LICENSE).
+ Quantum-Botto is free and open-source software licensed under the [GNU Affero General Public License v3.0](https://github.com/Quantum-realm/Quantum-Botto/blob/master/LICENSE).
