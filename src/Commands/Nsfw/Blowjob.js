@@ -1,9 +1,10 @@
 const Command = require('../../Structures/Command')
+const Message = require('../../Structures/Message')
 
 module.exports = class command extends Command {
     constructor() {
         super('blowjob', {
-            description: 'Sends a random nsfw blowjob image',
+            description: 'Sends random blowjob image',
             category: 'nsfw',
             usage: 'blowjob',
             exp: 20,
@@ -17,17 +18,7 @@ module.exports = class command extends Command {
      */
 
     execute = async (M) => {
-       const prefix = this.helper.config.prefix
-       const buttons = [
-        { buttonId: `${this.helper.config.prefix}blowjob`, buttonText: {displayText: 'NEXT ➡️'}, type: 1},
-     ]
-       const buttonMessage = {
-       image: { url: 'https://api.waifu.pics/nsfw/blowjob'},
-       caption: '*Here, you go!*',
-       footer: `Quntuam-botto`,
-       buttons: buttons,
-       headerType: 1
-     }
-       return void (await this.client.sendMessage(M.from, buttonMessage))
+        const { url } = await this.helper.utils.fetch('https://api.waifu.pics/nsfw/blowjob')
+        return void (await M.reply(await this.helper.utils.getBuffer(url), 'image'))
     }
 }
