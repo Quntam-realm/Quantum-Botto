@@ -14,7 +14,7 @@ module.exports = class command extends Command {
         })
    }
 
-<<<<<<< HEAD
+
     }
 
  
@@ -32,16 +32,13 @@ module.exports = class command extends Command {
 
      execute = async (M) => {
 
-<<<<<<< HEAD
+
     execute = async (m) => {
 
         if (!this.helper.config.mods.length) return void m.reply('*[UNMODERATED]*')
 
         let text ="*❱❱❱❱❱ _MODS_ ❰❰❰❰❰*\n\n"
-=======
-     if (!this.helper.config.mods.length) return void M.reply('*[UNMODERATED]*')
-     let text ="*❱❱❱❱❱ MODS ❰❰❰❰❰*\n\n"
->>>>>>> 61272023bedabe4de46211efae87ecbe8ae7f4a7
+
 
 const mentions = []
 
