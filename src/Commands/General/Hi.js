@@ -21,20 +21,19 @@ module.exports = class command extends Command {
     execute = async (m) => {
         // return void m.reply(`Hello! ${m.sender.username}`)
         // send a buttons message!
-const buttons = [
-    {buttonId: 'id1', buttonText: {displayText: 'Button 1'}, type: 1},
-    {buttonId: 'id2', buttonText: {displayText: 'Button 2'}, type: 1},
-    {buttonId: 'id3', buttonText: {displayText: 'Button 3'}, type: 1}
-  ]
-  
-  const buttonMessage = {
-      text: "Hi it's button message",
-      footer: 'Hello World',
-      buttons: buttons,
-      headerType: 1
-  }
-  
-  await this.client.sendMessage(m.from, buttonMessage)
+        const hello =[
+            {buttonId: '.help', buttonText: {displayText: 'Commands'}, types: 2},
+     
+     
+        ]
+        let buttonMessageds = {
+         image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
+         caption: `Hello! ${m.sender.username}` ,
+         footer: `${process.env.NAME}`,
+         buttons: hello,
+         headerType: 4
+     }
+     await this.client.sendMessage(m.chat,buttonMessageds,{quoted:m.message})
 
     }
 }
