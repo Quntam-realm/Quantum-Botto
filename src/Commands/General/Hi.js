@@ -23,15 +23,14 @@ module.exports = class command extends Command {
        // return void m.reply(`Hello! ${m.sender.username}`)
 
   try{
-          // send a buttons message!
+
 const buttons = [
-    {buttonId: `help`, buttonText: {displayText: 'Button 1'}, type: 1},
-    {buttonId: 'id2', buttonText: {displayText: 'Button 2'}, type: 1},
-    {buttonId: 'id3', buttonText: {displayText: 'Button 3'}, type: 1}
+    {buttonId: `help`, buttonText: {displayText: 'Button 1'}, type: 1}
   ]
   
   const buttonMessage = {
       text: `Hi it's button message  ${m.sender.username}`,
+      image: 'https://images6.alphacoders.com/103/1037400.png',
       footer: 'Hello World',
       buttons: buttons,
       headerType: 1
