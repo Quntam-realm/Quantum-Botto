@@ -22,8 +22,8 @@ module.exports = class command extends Command {
         // return void m.reply(`Hello! ${m.sender.username}`)
         // send a buttons message!
         const hello =[
-            {buttonId: `${this.helper.config.prefix}help`, buttonText: {displayText: 'Commands'}, types: 2},
-            {buttonId: `${this.helper.config.prefix}profile`, buttonText: {displayText: 'Profile'}, types: 1},
+            {buttonId: `.help`, buttonText: {displayText: 'Commands'}, types: 2},
+            {buttonId: `.profile`, buttonText: {displayText: 'Profile'}, types: 1},
      
         ]
         let buttonMessageds = {
