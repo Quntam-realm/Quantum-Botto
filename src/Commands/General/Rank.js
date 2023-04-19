@@ -23,7 +23,7 @@ module.exports = class command extends Command {
     execute = async (m) => {
         const users = m.mentioned
         if (m.quoted && !users.includes(m.quoted.sender.jid)) users.push(m.quoted.sender.jid)
-        while (users.length < 1) users.push(M.sender.jid)
+        while (users.length < 1) users.push(m.sender.jid)
         const user = users[0]
         const username = user === m.sender.jid ? m.sender.username : this.helper.contact.getContact(user).username
         let pfp
