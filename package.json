@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@adiwajshing/baileys": "https://github.com/Eximinati/Baileys.git",
+    "@adiwajshing/eslint-config": "https://github.com/adiwajshing/eslint-config.git",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^10.0.0",
     "@shineiichijo/marika": "^2.0.3",
