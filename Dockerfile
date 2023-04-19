@@ -1,13 +1,16 @@
-FROM some-base-image
+FROM fedora:37
 
-# Install dependencies
-RUN apt-get update && apt-get install -y openssh-client
+RUN sudo dnf -y update &&\
+    sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm &&\
+    sudo dnf install -y git ffmpeg ImageMagick nodejs yarnpkg libwebp &&\
+    sudo dnf clean all -y
 
-# Copy your application code to the container
-COPY . /app
+RUN sudo yarn add forever -g
 
-# Set the working directory
-WORKDIR /app
+WORKDIR /nezuko
 
-# Run your application
-CMD ["yarn", "src/bot.js"]
+COPY . /nezuko
+
+RUN yarn
+
+CMD ["yarn", "start"]
