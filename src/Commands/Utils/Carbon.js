@@ -14,25 +14,25 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {import('../../Handlers/Message').args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         const { context } = args
-        const code = context || M.quoted.content
-        if (!code) return void M.reply('Provide the code you want as a carbon image, Baka!')
+        const code = context || m.quoted.content
+        if (!code) return void m.reply('Provide the code you want as a carbon image, Baka!')
         try {
             const carbon = new Carbon.createCarbon()
                 .setCode(code.replace(/\```/g, ''))
                 .setBackgroundColor(this.helper.utils.generateRandomHex())
                 .setExportSize(3)
             const buffer = await Carbon.generateCarbon(carbon)
-            return void (await M.reply(buffer, 'image'))
+            return void (await m.reply(buffer, 'image'))
         } catch (err) {
             this.helper.log(err.message, true)
-            return void (await M.reply('An error occurred. Try again later'))
+            return void (await m.reply('An error occurred. Try again later'))
         }
     }
 }

@@ -6,7 +6,7 @@ module.exports = class command extends Command {
 
     constructor() {
 
-        super('animal', {
+        super('blowjob', {
 
             description: 'Sends random animal image',
 
@@ -31,10 +31,17 @@ module.exports = class command extends Command {
      */
 
     execute = async (m) => {
-
-        let buff= await axios.get(`https://fantox-apis.vercel.app/animal`)
-
-    let imgURL = buff.data.url
-
-    }
+        let blowjob = await axios.get ("https://api.waifu.pics/nsfw/blowjob")
+    let buffer = await this.helper.utils.getBuffer(blowjob);
+    let gifToMp4 = await this.helper.utils.buffergif(buffer);
+    return void (await this.client.sendMessage(m.from , 
+        {
+            video: gifToMp4 , 
+            gifPlayback: true
+        }, 
+        {
+            quoted: m.message
+        }
+        ))
+}
 }

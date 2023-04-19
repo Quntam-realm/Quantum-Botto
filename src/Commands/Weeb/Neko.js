@@ -13,12 +13,12 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @returns {Promise<void>}
      */
 
-    execute = async (M) => {
+    execute = async (m) => {
         const { url } = await this.helper.utils.fetch('https://nekos.life/api/v2/img/neko')
-        return void (await M.reply(await this.helper.utils.getBuffer(url), 'image'))
+        return void (await m.reply(await this.helper.utils.getBuffer(url), 'image'))
     }
 }

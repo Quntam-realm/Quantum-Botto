@@ -14,17 +14,17 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {import('../../Handlers/Message').args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
-        if (!M.hasSupportedMediaMessage && !M.quoted?.hasSupportedMediaMessage)
-            return void M.reply('Provide an image/gif/video by captioning it as a message or by quoting it')
+    execute = async (m, args) => {
+        if (!m.hasSupportedMediaMessage && !m.quoted?.hasSupportedMediaMessage)
+            return void m.reply('Provide an image/gif/video by captioning it as a message or by quoting it')
         let buffer
-        if (M.hasSupportedMediaMessage) buffer = await M.downloadMediaMessage(M.message.message)
-        else if (M.quoted && M.quoted.hasSupportedMediaMessage) buffer = await M.downloadMediaMessage(M.quoted.message)
+        if (m.hasSupportedMediaMessage) buffer = await m.downloadMediaMessage(m.message.message)
+        else if (m.quoted && m.quoted.hasSupportedMediaMessage) buffer = await m.downloadMediaMessage(M.quoted.message)
         let { flags, context } = args
         flags.forEach((flag) => (context = context.replace(flag, '')))
         const numbersFlag = this.helper.utils
@@ -50,7 +50,7 @@ module.exports = class command extends Command {
                     ? 'circle'
                     : 'full'
         })
-        return void (await M.reply(await sticker.build(), 'sticker'))
+        return void (await m.reply(await sticker.build(), 'sticker'))
     }
 
     /**

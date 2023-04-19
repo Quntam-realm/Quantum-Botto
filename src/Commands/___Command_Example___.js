@@ -14,12 +14,12 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         //do something
     }
 }

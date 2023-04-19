@@ -2379,6 +2379,14 @@ real-require@^0.2.0:
   resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.2.0.tgz#209632dea1810be2ae063a6ac084fee7e33fba78"
   integrity sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==
 
+reddit-image-fetcher@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/reddit-image-fetcher/-/reddit-image-fetcher-2.0.11.tgz#e757e627b98260488b2a15a653a8acd79ad5924f"
+  integrity sha512-6FZC4dEuwGzlcs825EeXb4Pz9ik5wkRjGbfq5FPiUstCojM869Dhe2F6NgWyh8WEzOu7M3DUjgqhbHec4+TVqQ==
+  dependencies:
+    axios "^0.21.1"
+    shuffle-array "^1.0.1"
+
 rimraf@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
@@ -2472,6 +2480,11 @@ sharp@^0.30.0:
     simple-get "^4.0.1"
     tar-fs "^2.1.1"
     tunnel-agent "^0.6.0"
+
+shuffle-array@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/shuffle-array/-/shuffle-array-1.0.1.tgz#c4ff3cfe74d16f93730592301b25e6577b12898b"
+  integrity sha512-0TFRU8zVQaLatWKr0/czo19VyPNgb/a3sBc1GAjVfivfzEGaS54vueNgtAu/8/pW7EM/VF5fwq9zgpLdGyRmVw==
 
 side-channel@^1.0.4:
   version "1.0.4"

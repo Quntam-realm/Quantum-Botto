@@ -28,7 +28,7 @@ module.exports = class command extends Command {
 
   /**
 
-  * @param {Message} M
+  * @param {Message} m
 
   * @param {import('../../Handlers/Message').args} args
 
@@ -45,27 +45,28 @@ module.exports = class command extends Command {
   * Important if pushing username on command
 
   */
+  const works =[
+    'slave', 
+    'engineer', 
+    'servant', 
+    'Man Eater' , 
+    'Motherfucker' , 
+    'prostitute' , 
+    'Dildo lover' , 
+    'Boku no pico lover', 
+    'Dog'
+];
+  const { wallet } = await this.helper.DB.getUser(m.sender.jid);
 
-const minCoins = 100;
+  const reward = Math.floor(Math.random() * 200) + 1; // Generate a random reward between 1 and 100
+  const workIndex = Math.floor(Math.random() * works.length);
+  const workStr = works[workIndex];
 
-    const maxCoins = 1000;
+  const newWallet = wallet + reward;
+  await this.helper.DB.user.updateOne({ jid: m.sender.jid }, { wallet: newWallet });
 
-    const earnedCoins = Math.floor(Math.random() * (maxCoins - minCoins + 1)) + minCoins;
-
-    const economy = await economyJs.findOne({ userId: m.sender });
-
-    if (!economy) return void m.reply('You don\'t have an economy profile.');
-
-    economy.wallet += earnedCoins;
-
-    await economy.save();
-
-   return void m.reply(`You worked hard and earned ${earnedCoins} coins!`);
-
-  
-
-      
-
+  return void (await m.reply(`👨‍🏭 You worked hard as a ${workStr} and earned ${reward} gold! 💰`));
+}
     }
 
-}
+

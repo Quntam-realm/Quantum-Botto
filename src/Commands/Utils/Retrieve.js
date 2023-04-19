@@ -13,15 +13,15 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @returns {Promise<void>}
      */
 
-    execute = async (M) => {
-        if (!M.quoted || M.quoted.type !== 'viewOnceMessage')
-            return void M.reply('Quote a view once message to retrieve, Baka!')
-        const buffer = await M.downloadMediaMessage(M.quoted.message)
-        const type = Object.keys(M.quoted.message.viewOnceMessage.message)[0].replace('Message', '')
-        return void (await M.reply(buffer, type))
+    execute = async (m) => {
+        if (!m.quoted || m.quoted.type !== 'viewOnceMessage')
+            return void m.reply('Quote a view once message to retrieve, Baka!')
+        const buffer = await m.downloadMediaMessage(m.quoted.message)
+        const type = Object.keys(m.quoted.message.viewOnceMessage.message)[0].replace('Message', '')
+        return void (await m.reply(buffer, type))
     }
 }

@@ -14,12 +14,12 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {import('../../Handlers/Message').args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         const { context } = args
         if (!context) { 
             const buffer = await this.helper.utils.getBuffer('https://telegra.ph/file/2f013ec99ff1284e1c9a1.mp4')
@@ -27,7 +27,7 @@ module.exports = class command extends Command {
                 command,
                 data
             }))
-            let text = `Konichiwa! *@${M.sender.jid.split('@')[0]}*, I'm ${
+            let text = `Konichiwa! *@${m.sender.jid.split('@')[0]}*, I'm ${
                 this.helper.config.name}
             \nMy prefix is - "${this.helper.config.prefix}"\n\nThe usable commands are listed below.`
             const categories = []
@@ -44,12 +44,12 @@ module.exports = class command extends Command {
                 text += `\`\`\`${categoryCommands.join(', ')}\`\`\``
             }
             text += `\n\n📕 *Note:* Use ${this.helper.config.prefix}help <command_name> for more info of a specific command. Example: *${this.helper.config.prefix}help hello*`
-            return void (await M.reply(buffer, 'video', true, undefined, text, [M.sender.jid]))
+            return void (await m.reply(buffer, 'video', true, undefined, text, [m.sender.jid]))
         } else {
             const cmd = context.trim().toLowerCase()
             const command = this.handler.commands.get(cmd) || this.handler.aliases.get(cmd)
-            if (!command) return void M.reply(`No command found | *"${context.trim()}"*`)
-            return void M.reply(
+            if (!command) return void m.reply(`No command found | *"${context.trim()}"*`)
+            return void m.reply(
                 `🎐 *Command:* ${this.helper.utils.capitalize(command.name)}\n🎴 *Aliases:* ${
                     !command.config.aliases
                         ? ''

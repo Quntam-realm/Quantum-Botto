@@ -3,6 +3,13 @@ const { tmpdir } = require('os')
 const { promisify } = require('util')
 const { exec } = require('child_process')
 const { readFile, unlink, writeFile } = require('fs-extra')
+const { Configuration, OpenAIApi } = require('openai')
+const fs = require('fs-extra')
+
+const configuration = new Configuration({
+    apiKey: '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'
+})
+const openai = new OpenAIApi(configuration)
 
 module.exports = class Utils {
     constructor() {}
@@ -18,7 +25,6 @@ module.exports = class Utils {
                 responseType: 'arraybuffer'
             })
         ).data
-
     /**
      * @param {string} content
      * @param {boolean} all
@@ -141,6 +147,111 @@ module.exports = class Utils {
         Promise.all([unlink(mp4), unlink(`${filename}.gif`), unlink(`${filename}.gif`)])
         return buffer
     }
+
+    /**
+     * @param {string} text
+     */
+    gpt = async (text) => {
+        //gpt-3.5-turbo
+        const completion = await openai.createChatCompletion({
+            model: 'gpt-3.5-turbo',
+            messages: [
+                {
+                    role: 'user',
+                    content: `${text}`
+                }
+            ]
+        })
+    
+        return {
+            response: completion.data.choices[0].message.content
+        }
+    }
+    
+    /**
+     * @param {string} text
+     */
+
+    createImage = async (text) => {
+        const results = await openai.createImage({
+            prompt: `${text}`,
+            n: 10,
+            size: '1024x1024'
+        })
+        return {
+            response: results
+        }
+    }
+    
+    /**
+     * @param {Buffer} buffer
+     * @param {string} text
+     */
+
+    editImage = async (text, buffer) => {
+        const response = await openai.createImageEdit(
+            buffer, 
+            fs.createReadStream('image.png'), 
+            `${text}`, 2, '1024x1024'
+            )
+            return {
+                response: results
+            }
+        }
+    
+
+    /**
+     * @param {string} text
+     */
+
+    chat = async (text) => {
+        const completion = await openai.createCompletion({
+            model: 'text-davinci-003',
+            prompt: `${text}`,
+            temperature: 0,
+            max_tokens: 3000,
+            top_p: 1,
+            frequency_penalty: 0.5,
+            presence_penalty: 0
+        })
+    
+        return {
+            response: completion.data.choices[0].text
+        }
+    }
+
+    /**
+     * @param {string} text
+     */
+    
+    isUrl = (url) => {
+        return url.match(
+          new RegExp(
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+            "gi"
+          )
+        );
+      };
+
+      /**
+     * @param {Buffer} image
+     * @returns {Promise<Buffer | string>}
+     */
+      buffergif = async (image) => {
+        const filename = `${Math.random().toString(36)}`;
+        await fs.writeFileSync(`${filename}.gif`, image);
+        child_process.exec(
+          `ffmpeg -i ${filename}.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" bin/${filename}.mp4`
+        );
+        await sleepy(4000);
+      
+        var buffer5 =  fs.readFileSync(`${filename}.mp4`);
+        Promise.all([
+          unlink(`${filename}.mp4`),
+          unlink(`${filename}.gif`),
+        ]);
+        return buffer5;
+      };
 
     /**
      * @param {Buffer} gif

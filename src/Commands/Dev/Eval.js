@@ -12,12 +12,12 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         let out
         try {
             const result = eval(args.context)
@@ -25,7 +25,7 @@ module.exports = class command extends Command {
         } catch (error) {
             out = error.message
         }
-        return void M.reply(out)
+        return void m.reply(out)
     }
 }
 

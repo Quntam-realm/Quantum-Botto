@@ -15,11 +15,11 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @returns {Promise<void>}
      */
 
-    execute = async (M) => {
+    execute = async (m) => {
         const groups = await this.helper.DB.group.find({})
         const users = await this.helper.DB.user.find({})
         const pad = (s) => (s < 10 ? '0' : '') + s
@@ -30,7 +30,7 @@ module.exports = class command extends Command {
             return `${pad(hours)}:${pad(minutes)}:${pad(secs)}`
         }
         const uptime = formatTime(process.uptime())                                                                                                                                                                                               
-        return void M.reply(`🎐 *JILL_INFO* 🎐\n\n♦️ *Commands* : ${                                                                                                                                                                                                                            
+        return void m.reply(`🎐 *JILL_INFO* 🎐\n\n♦️ *Commands* : ${                                                                                                                                                                                                                            
         Array.from(this.handler.commands, ([command, data]) => ({command,data})).length}\n\n🔰 *Groups* : ${groups.length}\n\n⏱️ *Uptime* : ${uptime}\n\n👥 *Users* : ${users.length}`)               
   }
 

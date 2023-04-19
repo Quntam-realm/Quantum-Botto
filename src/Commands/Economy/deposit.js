@@ -1,62 +1,41 @@
-
-
-
-
-
-
 const Command = require('../../Structures/Command')
-
 const Message = require('../../Structures/Message')
 
 module.exports = class command extends Command {
-
     constructor() {
-
         super('deposit', {
-
-            description: "Displays the bot's usable commands",
-
+            description: 'deposit amount to bank',
             category: 'economy',
-
-            exp: 20,
-
-            usage: 'deposit',
-
-            aliases: ['deposit'],
-
-            cooldown: 10
-
+            usage: 'ban [tag/quote users] --action=[ban/unban]',
+            cooldown: 5
         })
-
     }
 
-  /**
+    /**
+     * @param {Message} m
+     * @param {import('../../Handlers/Message').args} args
+     * @returns {Promise<void>}
+     */
 
-  * @param {Message} M
+    execute = async (m, args) => {
 
-  * @param {import('../../Handlers/Message').args} args
+    if (m.numbers.length < 1) return void m.reply('Specify the amount of gold to deposit')
 
-  * @returns {Promise<void>}
+       const { wallet , bank } = await this.helper.DB.getUser(m.sender.jid)
 
-  */
-
-  execute = async (M, user, args) => {
-
-    if (M.numbers.length < 1) return void M.reply('Specify the amount of gold to deposit')
-
-       const { wallet } = await this.helper.DB.getUser(M.sender.jid)
-
-       if (M.numbers[0] > wallet) return void M.reply(`Check your wallet`)
-
-       await this.helper.DB.setGold(M.sender.jid, M.numbers[0], 'bank')
-
-       await this.helper.DB.setGold(M.sender.jid, -M.numbers[0])
+       if (m.numbers[0] > wallet) return void m.reply(`You do not have enough gold in your wallet to deposit this amount.`)
 
 
+       const updatedWallet = wallet - m.numbers[0];
+    const updatedBank = bank + m.numbers[0];
 
- const text = `${M.numbers[0]} to your bank`
+    await this.helper.DB.user.updateOne({ jid: m.sender.jid }, { wallet: updatedWallet, bank: updatedBank });
+    //    await this.helper.DB.getUser(m.sender.jid, m.numbers[0], 'bank')
 
- return void (await M.reply(text))
+    //    await this.helper.DB.getUser(m.sender.jid, -m.numbers[0])
+
+
+    return void m.reply(`💰Amount Deposited: ${m.numbers[0]}\n\n🏦Deposited in: Bank\n\n💳New Bank Amount: ${updatedBank}`);
 
 }
    }

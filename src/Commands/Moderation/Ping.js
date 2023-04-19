@@ -26,7 +26,7 @@ module.exports = class command extends Command {
 
     /**
 
-     * @param {Message} M
+     * @param {Message} m
 
      * @param {import('../../Handlers/Message').args} args
 

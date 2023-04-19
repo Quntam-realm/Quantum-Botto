@@ -61,7 +61,7 @@ module.exports = class command extends Command {
 
   /**
 
-  * @param {Message} M
+  * @param {Message} m
 
   * @param {import('../../Handlers/Message').args} args
 
@@ -70,20 +70,20 @@ module.exports = class command extends Command {
   */
 
 
- execute = async (client, arg, M) => {
+ execute = async (client, arg, m) => {
  
  
   
 
            const cooldown = 300000
 
-        const lastadvn = await client.DB.get(`${M.sender}.adventure`)
+        const lastadvn = await client.DB.get(`${m.sender}.adventure`)
 
         if (lastadvn !== null && cooldown - (Date.now() - lastadvn) > 0) {
 
             const lastadvntime = ms(cooldown - (Date.now() - lastadvn))
 
-            return M.reply(
+            return m.reply(
 
                 `*You have to wait ${lastadvntime.minutes} minute(s), ${lastadvntime.seconds} second(s) for another hunt*`
 
@@ -91,23 +91,23 @@ module.exports = class command extends Command {
 
         }
 
-        const level = (await client.DB.get(`${M.sender}_LEVEL`)) || 1
+        const level = (await client.DB.get(`${m.sender}_LEVEL`)) || 1
 
-        const health = (await client.rpg.get(`${M.sender}.health`)) || 100
+        const health = (await client.rpg.get(`${m.sender}.health`)) || 100
 
-        const armor = await client.rpg.get(`${M.sender}.armor.durability`)
+        const armor = await client.rpg.get(`${m.sender}.armor.durability`)
 
-        const sword = await client.rpg.get(`${M.sender}.sword.durability`)
+        const sword = await client.rpg.get(`${m.sender}.sword.durability`)
 
-        if (!armor) return M.reply(`*You dont have any armor!!*`)
+        if (!armor) return m.reply(`*You dont have any armor!!*`)
 
-        if (!sword) return M.reply(`*You dont have a sword!!*`)
+        if (!sword) return m.reply(`*You dont have a sword!!*`)
 
-        if (health < 30) return M.reply(`*You dont have the required health ❤️*`)
+        if (health < 30) return m.reply(`*You dont have the required health ❤️*`)
 
-        await helper.DB.set(`${M.sender}.adventure`, Date.now())
+        await helper.DB.set(`${m.sender}.adventure`, Date.now())
 
-        M.reply(
+        m.reply(
 
             `*You have _Health: ${percentageCal(10, health)}_ ❤️ reduction and your armor and sword got ${percentageCal(
 
@@ -119,17 +119,17 @@ module.exports = class command extends Command {
 
         )
 
-        await client.rpg.sub(`${M.sender}.armor.durability`, percentageCal(30, armor))
+        await client.rpg.sub(`${m.sender}.armor.durability`, percentageCal(30, armor))
 
-        await client.rpg.set(`${M.sender}.health`, health - percentageCal(10, health))
+        await client.rpg.set(`${m.sender}.health`, health - percentageCal(10, health))
 
-        await client.rpg.sub(`${M.sender}.sword.durability`, percentageCal(5, sword))
+        await client.rpg.sub(`${m.sender}.sword.durability`, percentageCal(5, sword))
 
         let text = '🔖 *Adventure Rewards:*\n\n'
 
         for (const rewardItem in reward(level).reward) {
 
-            await client.rpg.add(`${M.sender}[${rewardItem}]`, reward(level).reward[rewardItem])
+            await client.rpg.add(`${m.sender}[${rewardItem}]`, reward(level).reward[rewardItem])
 
             text += `*> ${rewardItem}: _${reward(level).reward[rewardItem]}_*\n`
 
@@ -137,7 +137,7 @@ module.exports = class command extends Command {
 
         setTimeout(() => {
 
-            M.reply(text)
+            m.reply(text)
 
         }, 10000)
 

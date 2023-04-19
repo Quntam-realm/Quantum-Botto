@@ -23,17 +23,17 @@ module.exports = class MessageHandler {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @returns {Promise<void>}
      */
 
-    handleMessage = async (M) => {
+    handleMessage = async (m) => {
         const { prefix } = this.helper.config
-        const args = M.content.split(' ')
+        const args = m.content.split(' ')
         let title = 'DM'
-        if (M.chat === 'group') {
+        if (m.chat === 'group') {
             try {
-                const { subject } = await this.client.groupMetadata(M.from)
+                const { subject } = await this.client.groupMetadata(m.from)
                 title = subject || 'Group'
             } catch (error) {
                 title = 'Group'
@@ -41,52 +41,52 @@ module.exports = class MessageHandler {
         }
         if (!args[0] || !args[0].startsWith(prefix))
             return void this.helper.log(
-                `${chalk.cyanBright('Message')} from ${chalk.yellowBright(M.sender.username)} in ${chalk.blueBright(
+                `${chalk.cyanBright('Message')} from ${chalk.yellowBright(m.sender.username)} in ${chalk.blueBright(
                     title
                 )}`
             )
         this.helper.log(
             `${chalk.cyanBright(`Command ${args[0]}[${args.length - 1}]`)} from ${chalk.yellowBright(
-                M.sender.username
+               m.sender.username
             )} in ${chalk.blueBright(title)}`
         )
-        const { ban, tag } = await this.helper.DB.getUser(M.sender.jid)
-        if (ban) return void M.reply('You are banned from using commands')
+        const { ban, tag } = await this.helper.DB.getUser(m.sender.jid)
+        if (ban) return void m.reply('You are banned from using commands')
         if (!tag)
             await this.helper.DB.user.updateOne(
-                { jid: M.sender.jid },
+                { jid: m.sender.jid },
                 { $set: { tag: this.helper.utils.generateRandomUniqueTag(4) } }
             )
         const cmd = args[0].toLowerCase().slice(prefix.length)
         const command = this.commands.get(cmd) || this.aliases.get(cmd)
-        if (!command) return void M.reply('No such command, Baka!')
+        if (!command) return void m.reply('No such command, Baka!')
         const disabledCommands = await this.helper.DB.getDisabledCommands()
         const index = disabledCommands.findIndex((CMD) => CMD.command === command.name)
         if (index >= 0)
-            return void M.reply(
+            return void m.reply(
                 `*${this.helper.utils.capitalize(cmd)}* is currently disabled by *${
                     disabledCommands[index].disabledBy
                 }* in *${disabledCommands[index].time} (GMT)*. ❓ *Reason:* ${disabledCommands[index].reason}`
             )
-        if (command.config.category === 'dev' && !this.helper.config.mods.includes(M.sender.jid))
-            return void M.reply('This command can only be used by the MODS')
-        if (M.chat === 'dm' && !command.config.dm) return void M.reply('This command can only be used in groups')
+        if (command.config.category === 'dev' && !this.helper.config.mods.includes(m.sender.jid))
+            return void m.reply('This command can only be used by the MODS')
+        if (m.chat === 'dm' && !command.config.dm) return void m.reply('This command can only be used in groups')
         const cooldownAmount = (command.config.cooldown ?? 3) * 1000
         const time = cooldownAmount + Date.now()
-        if (this.cooldowns.has(`${M.sender.jid}${command.name}`)) {
-            const cd = this.cooldowns.get(`${M.sender.jid}${command.name}`)
+        if (this.cooldowns.has(`${m.sender.jid}${command.name}`)) {
+            const cd = this.cooldowns.get(`${m.sender.jid}${command.name}`)
             const remainingTime = this.helper.utils.convertMs(cd - Date.now())
-            return void M.reply(
+            return void m.reply(
                 `You are on a cooldown. Wait *${remainingTime}* ${
                     remainingTime > 1 ? 'seconds' : 'second'
                 } before using this command again`
             )
-        } else this.cooldowns.set(`${M.sender.jid}${command.name}`, time)
-        setTimeout(() => this.cooldowns.delete(`${M.sender.jid}${command.name}`), cooldownAmount)
-        await this.helper.DB.setExp(M.sender.jid, command.config.exp || 10)
-        await this.handleUserStats(M)
+        } else this.cooldowns.set(`${m.sender.jid}${command.name}`, time)
+        setTimeout(() => this.cooldowns.delete(`${m.sender.jid}${command.name}`), cooldownAmount)
+        await this.helper.DB.setExp(m.sender.jid, command.config.exp || 10)
+        await this.handleUserStats(m)
         try {
-            await command.execute(M, this.formatArgs(args))
+            await command.execute(m, this.formatArgs(args))
         } catch (error) {
             this.helper.log(error.message, true)
         }
@@ -143,15 +143,15 @@ module.exports = class MessageHandler {
 
     /**
      * @private
-     * @param {Message} M
+     * @param {Message} m
      * @returns {Promise<void>}
      */
 
-    handleUserStats = async (M) => {
-        const { experience, level } = await this.helper.DB.getUser(M.sender.jid)
+    handleUserStats = async (m) => {
+        const { experience, level } = await this.helper.DB.getUser(m.sender.jid)
         const { requiredXpToLevelUp } = Stats.getStats(level)
         if (requiredXpToLevelUp > experience) return void null
-        await this.helper.DB.user.updateOne({ jid: M.sender.jid }, { $inc: { level: 1 } })
+        await this.helper.DB.user.updateOne({ jid: m.sender.jid }, { $inc: { level: 1 } })
     }
 
     /**

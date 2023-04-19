@@ -34,7 +34,7 @@ module.exports = class command extends Command {
 
   /**
 
-  * @param {Message} M
+  * @param {Message} m
 
   * @param {import('../../Handlers/Message').args} args
 
@@ -51,38 +51,24 @@ module.exports = class command extends Command {
   * Important if pushing username on command
 
   */
-const userId = m.sender;
+  if (m.numbers.length < 1) return void m.reply('Specify the amount of gold to deposit')
 
-    let economy = await economyJs.findOne({ userId: userId });
+  const { wallet , bank } = await this.helper.DB.getUser(m.sender.jid)
 
-    if (!economy) {
+  if (m.numbers[0] > bank) return void m.reply(`You do not have enough gold in your bank to withdraw this amount.`)
 
-      economy = new economyJs({ userId: userId });
 
-      await economy.save();
+  const updatedBank = bank - m.numbers[0];
+const  updatedWallet = wallet + m.numbers[0];
 
-    }
+await this.helper.DB.user.updateOne({ jid: m.sender.jid }, { wallet: updatedWallet, bank: updatedBank });
+//    await this.helper.DB.getUser(m.sender.jid, m.numbers[0], 'bank')
 
-    const wallet = economy.wallet;
+//    await this.helper.DB.getUser(m.sender.jid, -m.numbers[0])
 
-    const bank = economy.bank;
 
-    if (isNaN(args[0])) return m.reply('❌ Please provide a valid number to withdraw.');
+return void m.reply(`💰Amount Withdrew: ${m.numbers[0]}\n\n🏦Withdrew from: Bank\n\n💳New Wallet Amount: ${updatedWallet}`);
 
-    const amount = parseInt(args[0]);
 
-    if (amount > bank) return m.reply( '❌You don\'t have enough coins in your bank account to withdraw.');
-
-    if (amount <= 0) return m.reply('❌ Please provide a valid amount to withdraw.');
-
-    economy.bank -= amount;
-
-    economy.wallet += amount;
-
-    await economy.save();
-
-    return void m.reply(`🏧Successfully withdrew ${amount} coins from your bank account.`);
-
-    }
-  
+}
 }

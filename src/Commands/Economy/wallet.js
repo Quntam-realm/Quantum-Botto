@@ -15,15 +15,16 @@ const Message = require('../../Structures/Message')
   }
 
   /**
-  * @param {Message} M
+  * @param {Message} m
   * @param {import('../../Handlers/Message').args} args
   * @returns {Promise<void>}
   */
 
- execute = async (M, reply, sender, args) => {
- const { wallet, tag } = await this.helper.DB.getUser(M.sender.jid)
- const text = `👛 *Wallet* 👛\n\n⛩️ *Name: ${M.sender.username}*\n\n 💮 *tag: #${tag}*\n\n🪙 *Gold: ${wallet}*`
-    return void (await M.reply(text))
-
-    }
-}
+ execute = async (m, args) => {
+   const { wallet, tag } = await this.helper.DB.getUser(m.sender.jid)
+   const users = await this.helper.DB.user.find({ wallet: { $gt: 0 } }, 'wallet jid -_id').sort({ wallet: -1 }).lean();
+   const rank = users.findIndex(u => u.jid === m.sender.jid) + 1
+   const text = `🏦 *Wallet* 🏦\n\n⛩️ *Name: ${m.sender.username}*\n\n 💮 *tag: #${tag}*\n\n🪙 *Gold: ${wallet}*\n\n🏆 *Leaderboard rank: ${rank}*`
+   return void (await m.reply(text))
+ }
+ }

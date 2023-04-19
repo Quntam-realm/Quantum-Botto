@@ -15,14 +15,14 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {import('../../Handlers/Message').args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         const { context } = args
-        if (!context) return void M.reply('Provide the Emoji you want as sticker, Baka!')
+        if (!context) return void m.reply('Provide the Emoji you want as sticker, Baka!')
         const code = context.trim()
         const ent = code
         const hex = ent.codePointAt(0).toString(16)
@@ -36,9 +36,9 @@ module.exports = class command extends Command {
                 quality: 100,
                 background: 'transparent'
             })
-            return void (await M.reply(await sticker.build(), 'sticker'))
+            return void (await m.reply(await sticker.build(), 'sticker'))
         } catch (err) {
-            return void (await M.reply(`*Invalid Input, Baka!*`))
+            return void (await m.reply(`*Invalid Input, Baka!*`))
         }
     }
 }

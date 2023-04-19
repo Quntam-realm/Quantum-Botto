@@ -19,16 +19,16 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {import('../../Handlers/Message').args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         args.flags.forEach((flag) => (args.context = args.context.replace(flag, '')))
         const { context, flags } = args
-        if (!context && (!M.quoted || M.quoted.content === ''))
-            return void M.reply(
+        if (!context && (!m.quoted || m.quoted.content === ''))
+            return void m.reply(
                 `Provide or quote a message containing the code that you want to run prettier along with the language and options. Example: *${this.helper.config.prefix}prettier --lang=ts --no-semi --single-quote *[quotes a message containing the code]**`
             )
         const langFlag = flags.filter((flag) => flag.startsWith('--lang=') || flag.startsWith('--language='))[0]
@@ -41,10 +41,10 @@ module.exports = class command extends Command {
                 semi: !flags.includes('--no-semi'),
                 singleQuote: flags.includes('--single-quote')
             })
-            return void (await M.reply(`\`\`\`${formattedCode}\`\`\``))
+            return void (await m.reply(`\`\`\`${formattedCode}\`\`\``))
         } catch (error) {
-            await M.reply(`${error.message}`)
-            return void (await M.reply(
+            await m.reply(`${error.message}`)
+            return void (await m.reply(
                 `If the code's not wrong, try changing the languages to: \`\`\`${supportedLang.join(', ')}\`\`\``
             ))
         }

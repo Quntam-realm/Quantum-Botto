@@ -16,16 +16,16 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @returns {Promise<void>}
      */
 
-    execute = async (M) => {
-        const users = M.mentioned
-        if (M.quoted && !users.includes(M.quoted.sender.jid)) users.push(M.quoted.sender.jid)
+    execute = async (m) => {
+        const users = m.mentioned
+        if (m.quoted && !users.includes(m.quoted.sender.jid)) users.push(m.quoted.sender.jid)
         while (users.length < 1) users.push(M.sender.jid)
         const user = users[0]
-        const username = user === M.sender.jid ? M.sender.username : this.helper.contact.getContact(user).username
+        const username = user === m.sender.jid ? m.sender.username : this.helper.contact.getContact(user).username
         let pfp
         try {
             pfp = await this.helper.utils.getBuffer(await this.client.profilePictureUrl(user, 'image'))
@@ -46,7 +46,7 @@ module.exports = class command extends Command {
             .setRank(1, '', false)
             .renderEmojis(true)
             .build()
-        return void (await M.reply(
+        return void (await m.reply(
             card,
             'image',
             undefined,

@@ -15,14 +15,14 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {import('../../Handlers/Message').args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         const { context } = args
-        if (!context) return void M.reply('Provide a query for the search, Baka!')
+        if (!context) return void m.reply('Provide a query for the search, Baka!')
         const query = context.trim()
         await new Anime()
             .searchAnime(query)
@@ -48,7 +48,7 @@ module.exports = class command extends Command {
                 text += `❄ *Description:* ${result.synopsis}`
                 const image = await this.helper.utils.getBuffer(result.images.jpg.large_image_url)
                 return void (await this.client.sendMessage(
-                    M.from,
+                    m.from,
                     {
                         image,
                         caption: text,
@@ -62,12 +62,13 @@ module.exports = class command extends Command {
                         }
                     },
                     {
-                        quoted: M.message
+                        quoted: m.message
                     }
                 ))
             })
             .catch(() => {
-                return void M.reply(`Couldn't find any anime | *"${query}"*`)
+                return void m.reply(`Couldn't find any anime | *"${query}"*`)
             })
     }
 }
+

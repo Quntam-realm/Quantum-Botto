@@ -28,7 +28,7 @@ module.exports = class command extends Command {
 
   /**
 
-  * @param {Message} M
+  * @param {Message} m
 
   * @param {import('../../Handlers/Message').args} args
 
@@ -46,31 +46,13 @@ module.exports = class command extends Command {
 
   */
 
-const userId = m.sender;
+if (m.numbers.length < 1) return void m.reply('Specify the amount of gold to deposit')
 
-        const amount = parseInt(args[0]);
+let { wallet , bank } = await this.helper.DB.getUser(m.sender.jid)
 
-        if (!amount || amount <= 0) {
+if (m.numbers[0] > wallet) return void m.reply(`You do not have enough gold in your wallet to deposit this amount.`)
 
-            return void m.reply(`Invalid amount. Usage: ${this.client.config.prefix} ${command} <amount>`);
 
-        }
-
-        let economy = await economyJs.findOne({ userId });
-
-        if (!economy) {
-
-            economy = new economyJs({ userId });
-
-            await economy.save();
-
-        }
-
-        if (economy.wallet < amount) {
-
-            return void m.reply('You do not have enough coins to gamble!');
-
-        }
 
         // Simulate rolling two dice
 
@@ -81,25 +63,18 @@ const userId = m.sender;
         const total = left + right;
 
         if (total >= 7) {
-
             // Win condition: roll a total of 7 or higher
-
-            economy.wallet += amount;
-
-          return void m.reply(`You won ${amount} coins! 🎉🎉🎉\n\nDice Roll: 🎲 ${left} | ${right} 🎲\nTotal: ${total}`);
-
+            const wonAmount = m.numbers[0];
+            wallet += wonAmount;
+            await this.helper.DB.user.updateOne({ jid: m.sender.jid }, { wallet: wallet });
+            return void m.reply(`You won ${wonAmount} coins! 🎉🎉🎉\n\nDice Roll: 🎲 ${left} | ${right} 🎲\nTotal: ${total}`);
         } else {
-
             // Lose condition: roll a total of less than 7
-
-            economy.wallet -= amount;
-
-          return void m.reply(`You lost ${amount} coins. 😢😢😢\n\nDice Roll: 🎲 ${left} | ${right} 🎲\nTotal: ${total}`);
-
+            const lostAmount = m.numbers[0];
+            wallet -= lostAmount;
+            await this.helper.DB.user.updateOne({ jid: m.sender.jid }, { wallet: wallet });
+            return void m.reply(`You lost ${lostAmount} coins. 😢😢😢\n\nDice Roll: 🎲 ${left} | ${right} 🎲\nTotal: ${total}`);
         }
-
-        await economy.save();
-
+        
     }
-
 }

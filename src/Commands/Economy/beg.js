@@ -35,7 +35,7 @@ module.exports = class command extends Command {
 
   /**
 
-  * @param {Message} M
+  * @param {Message} m
 
   * @param {import('../../Handlers/Message').args} args
 
@@ -52,43 +52,23 @@ module.exports = class command extends Command {
   * Important if pushing username on command
 
   */
+  const { wallet, tag } = await this.helper.DB.getUser(m.sender.jid);
+const users = await this.helper.DB.user.find({ $or: [ { wallet: { $gt: 0 } }, { bank: { $gt: 0 } } ] }, 'wallet bank jid -_id').sort({ wallet: -1, bank: -1 }).lean()
+const rank = users.findIndex(u => u.jid === m.sender.jid) + 1;
+const reward = Math.floor(Math.random() * 100) + 1; // Generate a random reward between 1 and 100
 
- const minCoins = 1;
+let text = `🙏 You begged and received `;
+if (reward >= 50) {
+  text += `${reward} gold from a rich guy! 💰💰💰`;
 
-    const maxCoins = 100;
+} else {
+  text += `${reward} gold! 💰`;
+}
 
-    const earnedCoins = Math.floor(Math.random() * (maxCoins - minCoins + 1)) + minCoins;
+const newBank = wallet + reward;
+await this.helper.DB.user.updateOne({ jid: m.sender.jid }, { $set: { wallet: newBank } });
 
-    const userId = m.sender;
-
-    const economy = await economyJs.findOne({ userId });
-
-    if (!economy) return m.reply('❌You don\'t have an economy profile.');
-
-    const lastBegTime = economy.lastBegTime;
-
-    const now = moment().tz('Asia/Kolkata');
-
-    const diffInMinutes = now.diff(lastBegTime, 'minutes');
-
-    if (diffInMinutes < 60) {
-
-      const remainingTime = moment.duration(60 - diffInMinutes, 'minutes').humanize();
-        
-
-                                                                                                                    
-   return void m.reply(`❌You can only beg once per hour Please wait ${remainingTime} before begging again.`);
+return void (await m.reply(text));
 
     }
-
-    economy.wallet += earnedCoins;
-
-    economy.lastBegTime = now;
-
-    await economy.save();
-
-  return void m.reply(`You begged 🙏 and received ${earnedCoins} coins!`);
-
-  }
-
-}
+};

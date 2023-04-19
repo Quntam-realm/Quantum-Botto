@@ -15,14 +15,14 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {import('../../Handlers/Message').args} args
      * @returns {Promise<void>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         const { context } = args
-        if (!context) return void M.reply('Provide a query for the search, Baka!')
+        if (!context) return void m.reply('Provide a query for the search, Baka!')
         const query = context.trim()
         await new Character()
             .searchCharacter(query)
@@ -45,7 +45,7 @@ module.exports = class command extends Command {
                 if (chara.about !== null) text += `\n\n❤ *Description:* ${chara.about}`
                 const image = await this.helper.utils.getBuffer(chara.images.jpg.image_url)
                 return void (await this.client.sendMessage(
-                    M.from,
+                    m.from,
                     {
                         image,
                         caption: text,
@@ -59,12 +59,12 @@ module.exports = class command extends Command {
                         }
                     },
                     {
-                        quoted: M.message
+                        quoted: m.message
                     }
                 ))
             })
             .catch(() => {
-                return void M.reply(`No character found | *"${query}"*`)
+                return void m.reply(`No character found | *"${query}"*`)
             })
     }
 }

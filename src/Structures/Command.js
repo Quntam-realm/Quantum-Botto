@@ -33,12 +33,12 @@ module.exports = class Command {
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @param {args} args
      * @returns {Promise<void | never>}
      */
 
-    execute = async (M, args) => {
+    execute = async (m, args) => {
         throw new Error('Command method not implemented')
     }
 }

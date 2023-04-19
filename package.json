@@ -11,7 +11,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "format": "prettier --write --config .prettierrc.json \"src/**/*.js\"",
-    "start": "node --max-old-space-size=4096 src/bot.js"
+    "start": "nodemon --max-old-space-size=4096 src/bot.js"
   },
   "bugs": {
     "url": "https://github.com/Toshi-san001/Zerus2.0/issues"
@@ -42,6 +42,7 @@
     "prettier": "^2.7.1",
     "qr-image": "^3.2.0",
     "qrcode-terminal": "^0.12.0",
+    "reddit-image-fetcher": "^2.0.11",
     "unofficial-carbon-now": "^1.0.6",
     "wa-sticker-formatter": "^4.3.2"
   }

@@ -7,35 +7,34 @@ module.exports = class command extends Command {
             description: 'Says hi to the bot',
             category: 'general',
             usage: 'hi',
-            aliases: ['hello'],
             exp: 15,
             cooldown: 5
         })
     }
 
     /**
-     * @param {Message} M
+     * @param {Message} m
      * @returns {Promise<void>}
      */
 
-    execute = async (M , args) => {
+    execute = async (m , args) => {
         // if (!client.config.openai.apiKey) return M.reply('You have not provided an OpenAI API key in the config file')
         
         let {context} = args
         // const input = args.join(' ')
-        if (context === null) return M.reply('Please provide some text to prompt the AI')
-        
+        if (context === null) return m.reply('Please provide some text to prompt the AI')
         try {
-            const response = await this.helper.openAi.chat(context)
+            const response = await this.helper.utils.chat(context)
             let res = response.response;
 
             let text = `Q. ${context}\n\nA. ${res.trim().replace(/\n\n/, '\n')}`;
 
             // let text = `Q. ${context}\n\n${'A.'+res}`
-            await this.client.sendMessage(M.from , {text: text})
+            return void (await m.reply(text))
+            // await this.client.sendMessage(m.from , {text: text} ,{quoted: m})
         
         } catch (err) {
-            M.reply(`Error: ${err}`)
+            m.reply(`Error kun: ${err}`)
         }
     }
 }

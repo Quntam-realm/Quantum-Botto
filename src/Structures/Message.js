@@ -5,10 +5,10 @@ const Contact = require('./Contact')
 module.exports = class Message {
     /**
      *
-     * @param {proto.IWebMessageInfo} M
+     * @param {proto.IWebMessageInfo} m
      * @param {client} client
      */
-    constructor(M, client) {
+    constructor(m, client) {
         /**
          * @type {client}
          */
@@ -16,7 +16,7 @@ module.exports = class Message {
         /**
          * @type {string}
          */
-        this.from = M.key.remoteJid || ''
+        this.from = m.key.remoteJid || ''
         /**
          * @type {'dm' | 'group'}
          */
@@ -24,15 +24,15 @@ module.exports = class Message {
         /**
          * @type {{username: string, jid: string}}
          */
-        this.sender = this.contact.getContact(this.chat === 'dm' ? M.key.remoteJid || '' : M.key.participant || '')
+        this.sender = this.contact.getContact(this.chat === 'dm' ? m.key.remoteJid || '' : m.key.participant || '')
         /**
          * @type {proto.IWebMessageInfo}
          */
-        this.message = M
+        this.message = m
         /**
          * @type {keyof proto.Message}
          */
-        this.type = Object.keys(M.message || 0)[0]
+        this.type = Object.keys(m.message || 0)[0]
         /**
          * @type {('videoMessage' | 'imageMessage')[]}
          */
@@ -43,17 +43,17 @@ module.exports = class Message {
         this.hasSupportedMediaMessage =
             this.type !== 'buttonsMessage'
                 ? supportedMediaType.includes(this.type)
-                : supportedMediaType.includes(Object.keys(M.message?.buttonsMessage)[0])
+                : supportedMediaType.includes(Object.keys(m.message?.buttonsMessage)[0])
         const getContent = () => {
-            if (M.message?.buttonsResponseMessage) return M.message?.buttonsResponseMessage?.selectedDisplayText || ''
-            if (M.message?.listResponseMessage)
-                return M.message?.listResponseMessage?.singleSelectReply?.selectedRowId || ''
-            return M.message?.conversation
-                ? M.message.conversation
+            if (m.message?.buttonsResponseMessage) return m.message?.buttonsResponseMessage?.selectedDisplayText || ''
+            if (m.message?.listResponseMessage)
+                return m.message?.listResponseMessage?.singleSelectReply?.selectedRowId || ''
+            return m.message?.conversation
+                ? m.message.conversation
                 : this.hasSupportedMediaMessage
-                ? supportedMediaType.map((type) => M.message?.[type]?.caption).filter((caption) => caption)[0] || ''
-                : M.message?.extendedTextMessage?.text
-                ? M.message?.extendedTextMessage.text
+                ? supportedMediaType.map((type) => m.message?.[type]?.caption).filter((caption) => caption)[0] || ''
+                : m.message?.extendedTextMessage?.text
+                ? m.message?.extendedTextMessage.text
                 : ''
         }
         /**
@@ -72,7 +72,7 @@ module.exports = class Message {
          * @type {string[]}
          */
         const array =
-            (M?.message?.[type]?.contextInfo?.mentionedJid ? M?.message[type]?.contextInfo?.mentionedJid : []) || []
+            (m?.message?.[type]?.contextInfo?.mentionedJid ? m?.message[type]?.contextInfo?.mentionedJid : []) || []
         array.filter((x) => x !== null && x !== undefined).forEach((user) => this.mentioned.push(user))
         let text = this.content
         for (const mention of this.mentioned) text = text.replace(mention.split('@')[0], '')
@@ -80,8 +80,8 @@ module.exports = class Message {
          * @type {number[]}
          */
         this.numbers = this.utils.extractNumbers(text)
-        if (M.message?.[type]?.contextInfo?.quotedMessage) {
-            const { quotedMessage, participant, stanzaId } = M.message?.[type]?.contextInfo ?? {}
+        if (m.message?.[type]?.contextInfo?.quotedMessage) {
+            const { quotedMessage, participant, stanzaId } = m.message?.[type]?.contextInfo ?? {}
             if (quotedMessage && participant) {
                 /**
                  * @type {keyof proto.Message}
