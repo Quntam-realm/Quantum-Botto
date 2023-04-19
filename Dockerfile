@@ -1,18 +1,20 @@
-FROM node:lts-buster
+# Specify the base image
+FROM node:14-alpine
 
-RUN apt-get update && \
-  apt-get install -y \
-  ffmpeg \
-  imagemagick \
-  webp && \
-  apt-get upgrade -y && \
-  npm i pm2 -g && \
-  rm -rf /var/lib/apt/lists/*
+# Install openssh-client package
+RUN apk add --no-cache openssh-client
 
-COPY package.json .
+# Set the working directory to /app
+WORKDIR /app
 
-RUN yarn install
+# Copy the package.json and yarn.lock files to the container
+COPY package.json yarn.lock ./
 
+# Install dependencies
+RUN yarn install --frozen-lockfile
+
+# Copy the source code to the container
 COPY . .
 
+# Start the application
 CMD ["yarn", "start"]
