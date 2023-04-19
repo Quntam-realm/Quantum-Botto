@@ -30,7 +30,7 @@ module.exports = class command extends Command {
         ]
         const buttonMessage = {
 image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
-            caption: `👋🏻 Hi *${sender.username}*.`,
+            caption: `👋🏻 Hi *${m.sender.username}*.`,
             footer: `${process.env.NAME}`,
 
             buttons: buttons,
