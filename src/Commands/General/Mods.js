@@ -2,31 +2,22 @@ const Command = require('../../Structures/Command')
 
 module.exports = class command extends Command {
 
-   constructor() {
-   super('mods', {
-   description: 'Shows bot owner',
-   category: 'general',
-   usage: 'mods',
-   exp: 15,
-   cooldown: 5,
-   aliases: ['mod', 'owner', 'moderators']
+     constructor() {
+          super('mods', {
+               description: 'Shows bot owner',
+               category: 'general',
+               usage: 'mods',
+               exp: 15,
+               cooldown: 5,
+               aliases: ['mod', 'owner', 'moderators']
 
-        })
-   }
+          })
+     }
+}
 
 
-    }
-
- 
-
-  /**
-
-     * @param {Message} m
-
-=======
-   /**
+    /**
      * @param {Message} M
->>>>>>> 61272023bedabe4de46211efae87ecbe8ae7f4a7
      * @returns {Promise<void>}
      */
 
