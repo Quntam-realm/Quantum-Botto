@@ -24,14 +24,14 @@ module.exports = class command extends Command {
         const buttons = [
             {
                 buttonId: 'id1',
-                buttonText: { displayText: `${this.client.config.prefix}help` },
+                buttonText: { displayText: `${process.env.PREFIX}help` },
                 type: 1
             }
         ]
         const buttonMessage = {
 image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
             caption: `👋🏻 Hi *${sender.username}*, I'm ${this.client.config.name}.`,
-            footer: 'Aku 2023',
+            footer: `${process.env.NAME}`,
 
             buttons: buttons,
             headerType: 1
