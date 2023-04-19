@@ -18,7 +18,7 @@ module.exports = class command extends Command {
      * @returns {Promise<void>}
      */
 
-<<<<<<< HEAD
+
     execute = async (m) => {
        // return void m.reply(`Hello! ${m.sender.username}`)
 
@@ -42,9 +42,5 @@ const buttons = [
   catch(err){
     m.reply(err)
   }
-=======
-    execute = async (M) => {
-        return void M.reply(`👋 Hello! *${M.sender.username}*`)
->>>>>>> 61272023bedabe4de46211efae87ecbe8ae7f4a7
     }
 }

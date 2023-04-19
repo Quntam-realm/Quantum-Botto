@@ -24,11 +24,9 @@ module.exports = class command extends Command {
         // const input = args.join(' ')
         if (context === null) return m.reply('Please provide some text to prompt the AI')
         try {
-<<<<<<< HEAD
+
             const response = await this.helper.utils.chat(context)
-=======
-            const response = await chat(context)
->>>>>>> 61272023bedabe4de46211efae87ecbe8ae7f4a7
+
             let res = response.response;
 
             let text = `Q. ${context}\n\nA. ${res.trim().replace(/\n\n/, '\n')}`;
