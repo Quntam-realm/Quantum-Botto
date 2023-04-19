@@ -1,6 +1,6 @@
 const Command = require('../../Structures/Command')
 const Message = require('../../Structures/Message')
- const { chat } = require('../../lib/openAi')
+
 module.exports = class command extends Command {
     constructor() {
         super('gpt', {
