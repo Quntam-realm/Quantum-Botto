@@ -1,18 +1,20 @@
 <!-- ![Just...]() -->
 
+<a href="https://ibb.co/n6d151N"><img src="https://i.ibb.co/LYjg2gX/1681736666680.jpg" alt="1681736666680" border="0" /></a>
+
 <div align='center'>
 
-<h2> Jill WhatsApp Bot </h2>
+<h2> Quantum-Botto </h2>
   
-<a href='https://github.com/LuckyYam/Whatsapp-bot/releases'>
+<a href='https://github.com/Quantum-realm/Quantum-Botto/releases'>
   
-<img src='https://img.shields.io/github/v/release/LuckyYam/WhatsApp-bot?color=%231e81b0&label=version&style=for-the-badge'>
+<img src='https://img.shields.io/github/v/release/Quantum-realm/Quantum-Botto?color=%231e81b0&label=version&style=for-the-badge'>
   
 </a>
   
-<a href='https://github.com/LuckyYam/Whatsapp-bot/blob/master/LICENSE'>
+<a href='https://github.com/Quantum-realm/Quantum-Botto/blob/master/LICENSE'>
   
-<img src='https://img.shields.io/github/license/LuckyYam/WhatsApp-bot?color=%231e81b0&style=for-the-badge'>
+<img src='https://img.shields.io/github/license/Quantum-realm/Quantum-Botto?color=%231e81b0&style=for-the-badge'>
   
 </a>
   
@@ -27,6 +29,8 @@
 <a href='https://heroku.com/deploy'>
   
 <img src='https://www.herokucdn.com/deploy/button.png'>
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/3j9GNw?referralCode=TE7efK)
   
 </a>
   
@@ -34,7 +38,7 @@
 
 ---
 
-## 💈 Preview
+## ♦️ Preview
 
  - Fully Modular Design
  - Written in [JavaScript](https://www.javascript.com/)
@@ -45,8 +49,8 @@
 
  ## 📙 Guide
 
- - [Self Hosting Guide](https://github.com/Toshi-san001/ZeroTw_1/blob/master/Self-Hosting-Guide.md)
- - [Heroku Hosting Guide](https://github.com/Toshi-san001/ZeroTw_1/blob/master/Heroku-Hosting-Guide.md)
+ - [Self Hosting Guide](https://github.com/Quantum-realm/Quantum-Botto/blob/master/Self-Hosting-Guide.md)
+ - [Heroku Hosting Guide](https://github.com/Quantum-realm/Quantum-Botto/blob/master/Heroku-Hosting-Guide.md)
 
  ## 💪 Contributing
 
@@ -55,4 +59,4 @@
 
  ## 🎐 License
 
- WhatsApp-bot is free and open-source software licensed under the [GNU Affero General Public License v3.0](https://github.com/LuckyYam/WhatsApp-bot/blob/master/LICENSE).
+ Quantum-Botto is free and open-source software licensed under the [GNU Affero General Public License v3.0](https://github.com/Quantum-realm/Quantum-Botto/blob/master/LICENSE).
