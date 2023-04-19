@@ -19,6 +19,22 @@ module.exports = class command extends Command {
      */
 
     execute = async (m) => {
-        return void m.reply(`Hello! ${m.sender.username}`)
+        // return void m.reply(`Hello! ${m.sender.username}`)
+        // send a buttons message!
+const buttons = [
+    {buttonId: 'id1', buttonText: {displayText: 'Button 1'}, type: 1},
+    {buttonId: 'id2', buttonText: {displayText: 'Button 2'}, type: 1},
+    {buttonId: 'id3', buttonText: {displayText: 'Button 3'}, type: 1}
+  ]
+  
+  const buttonMessage = {
+      text: "Hi it's button message",
+      footer: 'Hello World',
+      buttons: buttons,
+      headerType: 1
+  }
+  
+  await this.client.sendMessage(m.from, buttonMessage)
+
     }
 }
