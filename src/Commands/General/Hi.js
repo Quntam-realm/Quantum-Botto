@@ -33,7 +33,7 @@ module.exports = class command extends Command {
          buttons: hello,
          headerType: 4
      }
-     await this.client.sendMessage(m.chat,buttonMessageds,{quoted:m.message})
+     await this.client.sendMessage(m.from,buttonMessageds,{quoted:m.message})
 
     }
 }
